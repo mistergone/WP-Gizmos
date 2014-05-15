@@ -153,6 +153,13 @@ class WP_Gizmo {
 			}
 			
 			update_post_meta( $post_id, 'wp-gizmos', $gizmos );
+
+		}
+
+		elseif( !isset($_REQUEST['wp-gizmos']) || ($_REQUEST['wp-gizmos']) === '' ) {
+
+				delete_post_meta( $post_id, 'wp-gizmos', $gizmos );
+
 		}
 	}
 	
