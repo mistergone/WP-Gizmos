@@ -3,12 +3,15 @@
 Plugin Name: Wp Gizmos
 Description: Go go WP Gizmos go!
 Version: 0.1.1
+	Version note: Includes updates by Dave Kennedy (http://www.github.com/davidakennedy)
+		and Chuck Werner (http://www.github.com/mistergone)
 Author: Russell Heimlich
 Author URI: http://www.russellheimlich.com
 */
 
 class WP_Gizmo {
 	public $gizmo_types = array();
+	public $gizmo_limits = array('test');
 	private $field_name = '';
 	public $gizmos = array();
 	public $add_new_label = 'Add New Gizmo';
@@ -100,8 +103,8 @@ class WP_Gizmo {
 				<option value="<?php esc_attr_e($key); ?>"><?php echo $val ?></option>
 			<?php } ?>
 		</select>
-		
-		<div class="gizmos">
+		<div class="gizmo-error"></div>
+		<div class="gizmos" >
 			<?php
 			if( $gizmos ) {
 				foreach( $gizmos as $count => $gizmo ){
@@ -153,6 +156,13 @@ class WP_Gizmo {
 			}
 			
 			update_post_meta( $post_id, 'wp-gizmos', $gizmos );
+
+		}
+
+		elseif( !isset($_REQUEST['wp-gizmos']) || ($_REQUEST['wp-gizmos']) === '' ) {
+
+				delete_post_meta( $post_id, 'wp-gizmos', $gizmos );
+
 		}
 	}
 	
@@ -186,7 +196,12 @@ class WP_Gizmo {
 			return;
 		}
 	?>
-		<div class="form-wrap closed">
+		<div class="form-wrap closed" <?php 
+			if ( isset($this->gizmo_limits[$type]) ) {
+				echo 'data-gizmo-' . $type . '-limit="' . $this->gizmo_limits[$type] . '"';			
+			}
+
+			?> data-gizmo-type="<?php echo $type; ?>">
 			<h3><?php echo $type;?> <div title="Click to toggle" class="handlediv"><br></div></h3>
 			<div class="form-field">
 	<?php

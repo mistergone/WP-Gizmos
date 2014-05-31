@@ -32,6 +32,11 @@ function my_gizmo_init() {
 			'link' => 'Link',
 			'image_link' => 'Image Link' //The key can't have a - in it since it is tied to a function name that will be called. 
 		);
+
+		// Define a limit for each type of Gizmo widgety things, if you want to. (An error will appear if you try to add more.)
+		public $gizmo_limits = array(
+			'link' => 5 // An int greater than 0 will work best
+		);
 		
 		function render_link_fields($num, $data = NULL) {
 			?>

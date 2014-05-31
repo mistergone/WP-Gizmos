@@ -7,6 +7,17 @@ jQuery(document).ready(function($) {
 		if( selected === '0' ) {
 			return false;
 		}
+		else {
+			var limit = parseInt($('[data-gizmo-' + selected + '-limit]').attr('data-gizmo-' + selected + '-limit'));
+			var count = $('[data-gizmo-type="' + selected + '"]').length;
+			if (limit != NaN && count >= limit) {
+				var text = $(this).find('option[value="' + selected + '"]').html();
+				var error = 'Error: You have added the maximum number of "' + text + '" (' + selected + ') items. ';
+				error += 'Please delete or edit the existing "' + text + '" (' + selected + ') items to proceed.';
+				$(this).parents('.postbox-container').find('.gizmo-error').html(error);
+				return false;
+			}
+		}
 		
 		var gizmoClass = $context.attr('id').replace(/wp-gizmo-/, '');
 		var gizmoNum = parseInt( $this.attr('data-gizmo-count') );
